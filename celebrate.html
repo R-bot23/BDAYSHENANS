@@ -53,76 +53,74 @@
 
   <script>
     (function () {
-      const canvas = document.getElementById('confetti');
-      const ctx = canvas.getContext('2d');
-      let W, H, pieces = [], animation, startTime;
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let W, H, pieces = [], animation;
 
-      const colors = ['#ff3b30','#ff9500','#ffcc00','#34c759','#007aff','#af52de','#ff2d55'];
+    const colors = ['#ff3b30','#ff9500','#ffcc00','#34c759','#007aff','#af52de','#ff2d55'];
 
-      function resize() {
-        W = canvas.width = window.innerWidth;
-        H = canvas.height = window.innerHeight;
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function rand(min, max) { return Math.random() * (max - min) + min; }
+
+    function makePiece(x, y) {
+      const angle = rand(-Math.PI, Math.PI);
+      const speed = rand(2, 6);
+      return {
+        x, y,
+        w: rand(6, 10),
+        h: rand(10, 18),
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        g: 0.15,
+        r: rand(0, Math.PI * 2),
+        vr: rand(-0.2, 0.2),
+        color: colors[(Math.random() * colors.length) | 0],
+        alpha: 1
+      };
+    }
+
+    function burst(n) {
+      for (let i = 0; i < n; i++) {
+        pieces.push(makePiece(rand(0, W), -20)); // spawn from the top
       }
-      window.addEventListener('resize', resize);
-      resize();
+    }
 
-      function rand(min, max) { return Math.random() * (max - min) + min; }
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      pieces.forEach(p => {
+        p.vy += p.g;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.r += p.vr;
 
-      function makePiece(x, y) {
-        const angle = rand(-Math.PI/2 - 0.8, -Math.PI/2 + 0.8); // mostly upward
-        const speed = rand(4, 10);
-        return {
-          x, y,
-          w: rand(6, 10),
-          h: rand(10, 18),
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          g: rand(0.12, 0.25),
-          r: rand(0, Math.PI * 2),
-          vr: rand(-0.2, 0.2),
-          color: colors[(Math.random() * colors.length) | 0],
-          alpha: 1
-        };
-      }
+        if (p.y > H) p.alpha = 0; // fade when out of view
 
-      function burst(n) {
-        const cx = W / 2, cy = H * 0.35;
-        for (let i = 0; i < n; i++) pieces.push(makePiece(cx + rand(-30,30), cy + rand(-10,10)));
-      }
+        ctx.save();
+        ctx.globalAlpha = Math.max(p.alpha, 0);
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.r);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+        ctx.restore();
+      });
 
-      function draw() {
-        ctx.clearRect(0, 0, W, H);
-        pieces.forEach(p => {
-          p.vy += p.g;         // gravity
-          p.x += p.vx;
-          p.y += p.vy;
-          p.r += p.vr;
-          // fade out near bottom
-          if (p.y > H - 20) p.alpha -= 0.02;
+      pieces = pieces.filter(p => p.alpha > 0);
+    }
 
-          ctx.save();
-          ctx.globalAlpha = Math.max(p.alpha, 0);
-          ctx.translate(p.x, p.y);
-          ctx.rotate(p.r);
-          ctx.fillStyle = p.color;
-          ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
-          ctx.restore();
-        });
-
-        pieces = pieces.filter(p => p.alpha > 0 && p.y < H + 60);
-      }
-
-      function loop(ts) {
-        if (!startTime) startTime = ts;
-        draw();
-        animation = requestAnimationFrame(loop);
-      }
-
-      burst(180);
-      setTimeout(() => burst(120), 350);
-      setTimeout(() => burst(90), 900);
-
+    function loop() {
+      draw();
       animation = requestAnimationFrame(loop);
+    }
+
+    // 🎊 continuous confetti: call burst repeatedly
+    setInterval(() => burst(8), 150); // 8 pieces every 150ms
+    loop();
       
     })();
   </script>
