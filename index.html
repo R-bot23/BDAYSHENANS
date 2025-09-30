@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Welcome</title>
-  <link rel="stylesheet" href="style.css" />
   <style>
-    /* page-specific overrides */
     body {
       background: #cfefff; /* light blue */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
     }
-    .big-button {
+    button {
       width: 140px;
       height: 140px;
       border-radius: 50%;
@@ -17,26 +20,12 @@
       background: #e11d48;   /* red */
       color: white;
       font-size: 16px;
-      letter-spacing: 0.5px;
       cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0,0,0,.15);
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-    .big-button:hover {
-      transform: scale(1.06);
-      box-shadow: 0 12px 26px rgba(0,0,0,.2);
-    }
-    .sr {
-      position: absolute;
-      left: -9999px;
     }
   </style>
 </head>
-<body class="center">
-  <button class="big-button" id="go">
-    DO NOT CLICK
-    <span class="sr">Opens the birthday surprise</span>
-  </button>
+<body>
+  <button id="go" type="button">DO NOT CLICK</button>
 
   <script>
     document.getElementById('go').addEventListener('click', () => {
@@ -45,5 +34,6 @@
   </script>
 </body>
 </html>
+
 
 
