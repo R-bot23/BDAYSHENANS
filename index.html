@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DO NOT CLICK</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <main>
+      <button class="btn" id="danger" aria-label="Do not click">DO NOT CLICK</button>
+      <div class="hint" id="hint" aria-hidden="true">…unless you like surprises</div>
+
+      <section class="message hidden" id="msg" aria-live="polite" aria-atomic="true">
+        <h1>Happy Birthday! 🎂🎉</h1>
+        <p>Wishing you a year filled with joy, cake, and excellent memes.</p>
+        <button class="again" id="again">Do it again</button>
+      </section>
+    </main>
+  </div>
+
+  <!-- Confetti container -->
+  <div class="confetti" id="confetti"></div>
+
+  <script>
+    const btn = document.getElementById('danger');
+    const msg = document.getElementById('msg');
+    const hint = document.getElementById('hint');
+    const confetti = document.getElementById('confetti');
+    const again = document.getElementById('again');
+
+    function rand(min, max) { return Math.random() * (max - min) + min; }
+
+    function burstConfetti(count = 150) {
+      confetti.innerHTML = '';
+      const colors = ['#ef4444','#f59e0b','#22c55e','#3b82f6','#a855f7','#ec4899','#14b8a6'];
+      for (let i = 0; i < count; i++) {
+        const piece = document.createElement('span');
+        piece.className = 'piece';
+        const size = Math.round(rand(6, 14));
+        const durFall = rand(1.8, 3.2).toFixed(2);
+        const durSpin = rand(0.6, 1.6).toFixed(2);
+        const delay = rand(0, 0.25).toFixed(2);
+        const xStart = `${rand(0, 100).toFixed(2)}vw`;
+        const xEnd = `${rand(-10, 10).toFixed(2)}vw`;
+        piece.style.setProperty('--w', size + 'px');
+        piece.style.setProperty('--h', Math.round(size * 1.6) + 'px');
+        piece.style.setProperty('--x', xStart);
+        piece.style.setProperty('--xend', `calc(${xStart} + ${xEnd})`);
+        piece.style.setProperty('--bg', colors[Math.floor(rand(0, colors.length))]);
+        piece.style.setProperty('--durFall', durFall + 's');
+        piece.style.setProperty('--durSpin', durSpin + 's');
+        piece.style.setProperty('--delay', delay + 's');
+        confetti.appendChild(piece);
+      }
+    }
+
+    function reveal() {
+      document.body.classList.add('rainbow');
+      btn.classList.add('hidden');
+      hint.classList.add('hidden');
+      msg.classList.remove('hidden');
+      burstConfetti();
+    }
