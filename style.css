@@ -1,24 +1,16 @@
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: pink;
   margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
 }
 
-button {
-  width: 100px;         /* same width & height for circle */
-  height: 100px;
-  border-radius: 50%;   /* makes it a circle */
-  border: none;
-  background-color: hotpink;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: transform 0.2s;
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
 }
 
-button:hover {
-  transform: scale(1.1);
-}
+.column { flex-direction: column; }
