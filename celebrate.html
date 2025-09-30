@@ -48,11 +48,10 @@
 </head>
 <body class="center column">
   <canvas id="confetti"></canvas>
-  <h1 class="title">🎉 Happy Birthday, Sid! 🎂</h1>
-  <p class="subtitle">Wishing you a year full of color, joy, and big wins 🌈</p>
+  <h1 class="title">🎉 happy birthday sid(dharth)🎂</h1>
+  <p class="subtitle"> wow u are so cool i hope your socks are mever wet🌈</p>
 
   <script>
-    // Simple, dependency-free confetti burst
     (function () {
       const canvas = document.getElementById('confetti');
       const ctx = canvas.getContext('2d');
@@ -110,7 +109,6 @@
           ctx.restore();
         });
 
-        // remove invisibles
         pieces = pieces.filter(p => p.alpha > 0 && p.y < H + 60);
       }
 
@@ -120,15 +118,12 @@
         animation = requestAnimationFrame(loop);
       }
 
-      // Fire multiple bursts for extra wow
       burst(180);
       setTimeout(() => burst(120), 350);
       setTimeout(() => burst(90), 900);
 
       animation = requestAnimationFrame(loop);
-
-      // Optional: stop animation after ~12s to save battery
-      setTimeout(() => cancelAnimationFrame(animation), 12000);
+      
     })();
   </script>
 </body>
