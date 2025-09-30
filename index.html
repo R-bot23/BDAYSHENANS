@@ -13,11 +13,29 @@
       margin: 0;
     }
     
+    /* CSS cross */
     .cross {
-      font-size: 160px;
-      color: #e11d48; /* red */
-      text-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      position: relative;
+      width: 160px;
+      height: 160px;
       margin-bottom: 40px;
+    }
+
+    .cross::before,
+    .cross::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 160px;
+      height: 24px;
+      background: #e11d48; /* red */
+      transform: translate(-50%, -50%) rotate(45deg);
+      border-radius: 8px;
+    }
+
+    .cross::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
     }
     
     button {
